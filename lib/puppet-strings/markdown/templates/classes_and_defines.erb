@@ -82,5 +82,18 @@ Options:
 Default value: `<%= value_string(defaults[param[:name]]) %>`
 
 <% end -%>
+<% if hiera_overrides[param[:name]] -%>
+<details>
+  <summary>Hiera overrides in a detailed table</summary>
+
+  | Filename | Interpolations | Value |
+  |----------|----------------|-------|
+<% hiera_overrides[param[:name]].each do |filename, interpolations, value| -%>
+  | `<%= filename %>` | <%= interpolations.map { |i, v| "`#{i}`: `#{v}`" }.join("<br>") %> | `<%= value %>` |
+<% end -%>
+
+</details>
+
+<% end -%>
 <% end -%>
 <% end -%>
