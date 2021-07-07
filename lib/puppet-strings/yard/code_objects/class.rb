@@ -58,4 +58,44 @@ class PuppetStrings::Yard::CodeObjects::Class < PuppetStrings::Yard::CodeObjects
     hash[:source] = source unless source.nil? || source.empty?
     hash
   end
+
+  def to_schema
+    props = {}
+
+    paramhash = Hash[parameters]
+
+    tags.select { |t| t.tag_name == 'param' }.each do |tag|
+      apl_name = "#{name}::#{tag.name}"
+
+      if tag.types.nil? || tag.types.empty?
+        type_text = '[Any]'
+        type = 'Any'
+      else
+        type_text = "[#{tag.types.join(', ')}]"
+        type = tag.types.first
+      end
+
+      def_str = if paramhash.key?(tag.name) && paramhash[tag.name] && ! paramhash[tag.name].empty?
+                  "\nDefault: `#{paramhash[tag.name]}`"
+                else
+                  ''
+                end
+
+      md_desc = <<~"MD"
+      `#{type_text}`
+
+      #{tag.text.nil? || tag.text.empty? ? 'No documentation available.': tag.text}
+      #{def_str}
+      MD
+
+      props[apl_name] = {
+        markdownDescription: md_desc,
+        :$comment => "Puppet Data type: #{type.inspect}",
+        _puppet_type: type,
+      }
+      props[apl_name][:description] = tag.text.gsub("\n", ' ') unless tag.text.nil?
+    end
+
+    props
+  end
 end

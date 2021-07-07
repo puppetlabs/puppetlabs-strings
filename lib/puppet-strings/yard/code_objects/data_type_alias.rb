@@ -57,4 +57,35 @@ class PuppetStrings::Yard::CodeObjects::DataTypeAlias < PuppetStrings::Yard::Cod
     hash[:alias_of] = alias_of
     hash
   end
+
+  def to_schema
+    summary_tags = tags.select { |t| t.tag_name == 'summary' }
+    param_tags = tags.select { |t| t.tag_name == 'param' }
+
+    if summary_tags.empty?
+      title = name.to_s
+    else
+      title = summary_tags.first.text
+    end
+
+    doctext = (docstring || '').empty? ? title : (docstring || '')
+
+    hash = {
+      title: title,
+      description: doctext.gsub("\n", ' '),
+      markdownDescription: doctext,
+      _puppet_type: alias_of,
+      :$comment => alias_of,
+    }
+
+    props = {}
+    param_tags.each do |tag|
+      props[tag.name] = {
+        description: tag.text,
+        markdownDescription: tag.text,
+      }
+    end
+    hash[:properties] = props unless props.empty?
+    { name.downcase => hash }
+  end
 end

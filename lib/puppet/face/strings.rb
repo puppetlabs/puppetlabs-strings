@@ -10,7 +10,7 @@ Puppet::Face.define(:strings, '0.0.1') do
     default
 
     option '--format OUTPUT_FORMAT' do
-      summary 'Designate output format, JSON or markdown.'
+      summary 'Designate output format, JSON, JSONSchema or markdown.'
     end
     option '--out PATH' do
       summary 'Write selected format to PATH. If no path is designated, strings prints to STDOUT.'
@@ -117,7 +117,7 @@ Puppet::Face.define(:strings, '0.0.1') do
       options[:describe] = true
       options[:stdout] = true
       options[:format] = 'json'
-      
+
       if args.length > 1
         if options[:list]
           warn "WARNING: ignoring types when listing all types."
@@ -185,8 +185,10 @@ Puppet::Face.define(:strings, '0.0.1') do
         elsif format.casecmp('json').zero? || options[:emit_json] || options[:emit_json_stdout]
           generate_options[:json] = true
           generate_options[:path] ||= options[:emit_json] if options[:emit_json]
+        elsif format.casecmp('jsonschema').zero?
+          generate_options[:jsonschema] = true
         else
-          raise RuntimeError, "Invalid format #{options[:format]}. Please select 'json' or 'markdown'."
+          raise RuntimeError, "Invalid format #{options[:format]}. Please select 'json', 'jsonschema', or 'markdown'."
         end
       elsif options[:emit_json] || options[:emit_json_stdout]
         generate_options[:json] = true

@@ -27,4 +27,5 @@ Gem::Specification.new do |s|
   s.add_runtime_dependency 'yard', '~> 0.9.5'
   s.add_runtime_dependency 'rgen'
   s.requirements << 'puppet, >= 5.0.0'
+  s.add_dependency 'js_regex', '~> 3.7'
 end

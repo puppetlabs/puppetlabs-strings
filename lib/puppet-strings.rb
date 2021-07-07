@@ -35,8 +35,8 @@ module PuppetStrings
     args << "-m#{options[:markup] || 'markdown'}"
 
     file = nil
-    if options[:json] || options[:markdown]
-      file = if options[:json]
+    if options[:json] || options[:markdown] || options[:jsonschema]
+      file = if options[:json] || options[:jsonschema]
                options[:path]
              elsif options[:markdown]
                options[:path] || "REFERENCE.md"
@@ -53,6 +53,10 @@ module PuppetStrings
 
     # Run YARD
     YARD::CLI::Yardoc.run(*args)
+
+    if options[:jsonschema]
+      render_jsonschema(file)
+    end
 
     # If outputting JSON, render the output
     if options[:json] && !options[:describe]
@@ -76,6 +80,11 @@ module PuppetStrings
   def self.render_json(path)
     require 'puppet-strings/json'
     PuppetStrings::Json.render(path)
+  end
+
+  def self.render_jsonschema(path)
+    require 'puppet-strings/json_schema'
+    PuppetStrings::JsonSchema.render(path)
   end
 
   def self.render_markdown(path)

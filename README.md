@@ -48,13 +48,16 @@ gem install puppet-strings
 
 ## Generating documentation with Puppet Strings
 
-By default, Puppet Strings outputs documentation as HTML, or you can specify JSON or Markdown output instead.
+By default, Puppet Strings outputs documentation as HTML, or you can specify JSON or Markdown output instead. You can also specify [JSON Schema](https://json-schema.org/) format to produce a JSON
+Schema document.
 
 Strings generates reference documentation based on the code and Strings code comments in all Puppet and Ruby source files under the `./manifests/`, `./functions/`, `./lib/`, `./types/`, and `./tasks/` directories.
 
 Strings outputs HTML of the reference information and the module README to the module's `./doc/` directory. This output can be rendered in any browser.
 
 JSON and Markdown output include the reference documentation only. Strings sends JSON output to either STDOUT or to a file. Markdown output is written to a REFERENCE.md file in the module's main directory.
+
+JSON Schema output includes only class parameter documentation to support validation of keys specified for Automatic Parameter Lookup. It also includes documentation for any data type aliases, as those may be referenced as data types in the class parameters. The JSON Schema is generated with VSCode extensions to support Markdown formatting in the hover information.
 
 See the [Puppet Strings documentation](https://puppet.com/docs/puppet/latest/puppet_strings.html) for complete instructions for generating documentation with Strings. For code comment style guidelines and examples, see the [Puppet Strings style guide](https://puppet.com/docs/puppet/5.5/puppet_strings_style.html).
 
@@ -146,4 +149,3 @@ Bug fixes and ongoing development will occur in minor releases for the current m
 [contributing]: https://github.com/puppetlabs/puppet-strings/blob/main/CONTRIBUTING.md
 [committers]: https://github.com/puppetlabs/puppet-strings/blob/main/COMMITTERS.md
 [Puppet community Slack]: https://slack.puppet.com
-
