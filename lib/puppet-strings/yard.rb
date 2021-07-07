@@ -8,6 +8,7 @@ module PuppetStrings::Yard
   require 'puppet-strings/yard/handlers'
   require 'puppet-strings/yard/tags'
   require 'puppet-strings/yard/parsers'
+  require 'puppet-strings/hiera'
   require 'puppet-strings/monkey_patches/display_object_command'
 
   # Sets up YARD for use with puppet-strings.

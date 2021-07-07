@@ -55,6 +55,7 @@ class PuppetStrings::Yard::CodeObjects::Class < PuppetStrings::Yard::CodeObjects
     hash[:docstring] = PuppetStrings::Yard::Util.docstring_to_hash(docstring)
     defaults = Hash[*parameters.reject{ |p| p[1].nil? }.flatten]
     hash[:defaults] = defaults unless defaults.nil? || defaults.empty?
+    #hash[:hiera_overrides] = hiera_overrides if hiera_overrides.any?
     hash[:source] = source unless source.nil? || source.empty?
     hash
   end

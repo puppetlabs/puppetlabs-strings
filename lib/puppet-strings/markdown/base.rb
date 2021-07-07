@@ -139,6 +139,18 @@ module PuppetStrings::Markdown
       @registry[:defaults] unless @registry[:defaults].nil?
     end
 
+    # Overrides from Hiera
+    #
+    # Hiera overrides only apply to classes. Each entry is a tuple of the
+    # filename it's defined in, a mapping of interpolations that were applied
+    # in the filename and the value inside the file.
+    #
+    # @return [Array[Tuple[String, Hash[String, String], Any]]]
+    #   Any overrides from Hiera.
+    def hiera_overrides
+      []
+    end
+
     # @return [Hash] information needed for the table of contents
     def toc_info
       {
